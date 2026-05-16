@@ -1,0 +1,32 @@
+<svg width="196" height="196" viewBox="0 0 196 196" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="o3b1"><rect x="22"  y="88"  width="32" height="74"  rx="6"/></clipPath>
+    <clipPath id="o3b2"><rect x="62"  y="48"  width="32" height="114" rx="6"/></clipPath>
+    <clipPath id="o3b3"><rect x="102" y="70"  width="32" height="92"  rx="6"/></clipPath>
+    <clipPath id="o3b4"><rect x="142" y="18"  width="32" height="144" rx="6"/></clipPath>
+  </defs>
+
+  <!-- Columns on a baseline axis. The gray axis rule below the bars
+       explicitly signals "time series / chart", locking in the
+       throughput-over-intervals reading. -->
+
+  <g clip-path="url(#o3b1)">
+    <rect x="22" y="88"  width="32" height="52" fill="#0092da"/>
+    <rect x="22" y="140" width="32" height="22" fill="#4FC1EA"/>
+  </g>
+  <g clip-path="url(#o3b2)">
+    <rect x="62" y="48"  width="32" height="92" fill="#0092da"/>
+    <rect x="62" y="140" width="32" height="22" fill="#4FC1EA"/>
+  </g>
+  <g clip-path="url(#o3b3)">
+    <rect x="102" y="70"  width="32" height="70" fill="#0092da"/>
+    <rect x="102" y="140" width="32" height="22" fill="#4FC1EA"/>
+  </g>
+  <g clip-path="url(#o3b4)">
+    <rect x="142" y="18"  width="32" height="122" fill="#0092da"/>
+    <rect x="142" y="140" width="32" height="22"  fill="#4FC1EA"/>
+  </g>
+
+  <!-- Baseline / time axis -->
+  <rect x="12" y="172" width="172" height="8" rx="4" fill="#b2b2b2"/>
+</svg>

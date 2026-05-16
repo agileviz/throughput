@@ -1,0 +1,11 @@
+<svg width="196" height="196" viewBox="0 0 196 196" xmlns="http://www.w3.org/2000/svg">
+  <!-- Option 4: Time Axis — 5 ascending bars on an explicit baseline; latest bar sky blue -->
+  <rect x="24"  y="108" width="22" height="60"  rx="5" fill="#0092da"/>
+  <rect x="55"  y="84"  width="22" height="84"  rx="5" fill="#0092da"/>
+  <rect x="86"  y="60"  width="22" height="108" rx="5" fill="#0092da"/>
+  <rect x="117" y="40"  width="22" height="128" rx="5" fill="#0092da"/>
+  <rect x="148" y="24"  width="22" height="144" rx="5" fill="#4FC1EA"/>
+
+  <!-- Time axis baseline -->
+  <rect x="16" y="172" width="164" height="6" rx="3" fill="#b2b2b2"/>
+</svg>

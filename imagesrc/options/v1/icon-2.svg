@@ -1,0 +1,8 @@
+<svg width="196" height="196" viewBox="0 0 196 196" xmlns="http://www.w3.org/2000/svg">
+  <!-- Option 2: Pure Ascend — 5 monochrome bars rising, no ornament -->
+  <rect x="24"  y="118" width="16" height="50"  rx="4" fill="#0092da"/>
+  <rect x="57"  y="92"  width="16" height="76"  rx="4" fill="#0092da"/>
+  <rect x="90"  y="70"  width="16" height="98"  rx="4" fill="#0092da"/>
+  <rect x="123" y="46"  width="16" height="122" rx="4" fill="#0092da"/>
+  <rect x="156" y="24"  width="16" height="144" rx="4" fill="#0092da"/>
+</svg>

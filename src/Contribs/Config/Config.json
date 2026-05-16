@@ -1,0 +1,15 @@
+{
+  "contributions": [
+    {
+      "id": "throughput-configuration",
+      "type": "ms.vss-dashboards-web.widget-configuration",
+      "targets": ["ms.vss-dashboards-web.widget-configuration"],
+      "properties": {
+        "name": "Throughput Configuration",
+        "description": "Configure team, backlog level, interval, and number of intervals for the Throughput widget.",
+        "uri": "dist/Config/Config.html"
+      }
+    }
+  ]
+}
+  

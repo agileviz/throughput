@@ -1,0 +1,32 @@
+<svg width="196" height="196" viewBox="0 0 196 196" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="o4b1"><rect x="24"  y="100" width="40" height="72"  rx="6"/></clipPath>
+    <clipPath id="o4b2"><rect x="78"  y="52"  width="40" height="120" rx="6"/></clipPath>
+    <clipPath id="o4b3"><rect x="132" y="4"   width="40" height="168" rx="6"/></clipPath>
+  </defs>
+
+  <!-- Direct 90-degree sibling of Visual Rollup: 3 bars, ascending in size
+       (not descending), 3-color stack (blue / sky / gray) matching the
+       Visual Rollup proportions but rotated from horizontal to vertical. -->
+
+  <!-- Bar 1 (shortest) — 60% blue / 25% sky / 15% gray -->
+  <g clip-path="url(#o4b1)">
+    <rect x="24" y="129" width="40" height="43" fill="#0092da"/>
+    <rect x="24" y="111" width="40" height="18" fill="#4FC1EA"/>
+    <rect x="24" y="100" width="40" height="11" fill="#b2b2b2"/>
+  </g>
+
+  <!-- Bar 2 — 60% blue / 25% sky / 15% gray -->
+  <g clip-path="url(#o4b2)">
+    <rect x="78" y="100" width="40" height="72" fill="#0092da"/>
+    <rect x="78" y="70"  width="40" height="30" fill="#4FC1EA"/>
+    <rect x="78" y="52"  width="40" height="18" fill="#b2b2b2"/>
+  </g>
+
+  <!-- Bar 3 (tallest) — 70% blue / 20% sky / 10% gray -->
+  <g clip-path="url(#o4b3)">
+    <rect x="132" y="54" width="40" height="118" fill="#0092da"/>
+    <rect x="132" y="20" width="40" height="34"  fill="#4FC1EA"/>
+    <rect x="132" y="4"  width="40" height="16"  fill="#b2b2b2"/>
+  </g>
+</svg>

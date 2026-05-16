@@ -1,0 +1,70 @@
+{
+    "manifestVersion": 1,
+    "id": "Throughput",
+    "publisher": "AgileViz",
+    "public": true,
+    "galleryFlags": [],
+    "version": "0.9.4",
+    "scopes": ["vso.work"],
+    "name": "Throughput",
+    "description": "Your team's completion trend — items moved to Done per sprint, month, or quarter.",
+    "categories": [
+        "Azure Boards"
+    ],
+    "targets": [
+        {"id": "Microsoft.VisualStudio.Services.Cloud"}
+    ],
+    "icons": {
+        "default": "static/icon.png"
+    },
+    "tags": [
+        "dashboard",
+        "widget",
+        "agile",
+        "scrum",
+        "kanban",
+        "throughput",
+        "velocity",
+        "completed",
+        "sprint",
+        "iteration",
+        "flow",
+        "work item"
+      ],
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/agileviz/throughput"
+    },
+    "content": {
+        "License": {
+            "path": "LICENSE"
+        },
+        "details": {
+            "path": "overview.md"
+        }
+    },
+    "links": {
+        "support": {
+          "uri": "https://agileviz.com/plugins/throughput/"
+        },
+        "repository": {
+          "uri": "https://github.com/agileviz/throughput"
+        },
+        "issues": {
+          "uri": "https://github.com/agileviz/throughput/issues"
+        },
+        "privacypolicy": {
+          "uri": "https://agileviz.com/privacy/"
+        }
+      },
+    "files": [
+        {
+            "path": "static",
+            "addressable": true
+        },
+        {
+            "path": "dist",
+            "addressable": true
+        }
+    ]
+}

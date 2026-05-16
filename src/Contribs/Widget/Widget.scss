@@ -1,0 +1,501 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+
+.vqw-widget {
+    padding: 12px 16px 16px 16px;
+    color: var(--text-primary-color, #333);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.vqw-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+// Shared "centered state" layout for unconfigured. Logo + hint text vertically
+// centered in the available widget area.
+.vqw-centered-state {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    img {
+        width: 96px;
+        height: 96px;
+        opacity: 0.85;
+    }
+}
+
+.vqw-centered-hint {
+    font-size: 12px;
+    color: var(--text-secondary-color, #666);
+    text-align: center;
+    max-width: 240px;
+    line-height: 1.4;
+}
+
+// Transient / problem states.
+.vqw-status {
+    font-size: 13px;
+    padding-top: 8px;
+    color: var(--text-secondary-color, #666);
+}
+
+.vqw-error {
+    color: var(--status-error-text, #c42b1c);
+}
+
+// Icon prefix for any element with .vqw-error. Inherits the red color from
+// .vqw-error itself (no separate color rule needed). The icon is added via
+// ::before rather than baked into state.error so future error messages
+// don't need to remember to include the prefix character.
+.vqw-error::before {
+    content: '⚠ ';
+    font-weight: 700;
+}
+
+// =====================================================================
+// Throughput chart — stacked vertical bars by work-item-type per interval.
+// =====================================================================
+
+.tp-chart {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;  // allow inner flex children to compute heights against this
+    position: relative;  // anchor for absolutely-positioned .tp-tooltip
+}
+
+.tp-chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+// Hero metric sizing: 32px number + 14px descriptor. Bumped from 22/12
+// 2026-04-30 to match Blocker Buddy and the AgileViz portfolio convention
+// captured in feedback_widget_hero_metric_sizing.md. The shift was driven
+// by an in-context observation: BB+Throughput at 22px both got drowned
+// out next to ADO's scorecard-sized Cycle Time widget (~40px) on a real
+// dashboard. Verify-in-context > convention-chasing.
+.tp-chart-headline {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--text-primary-color, #333);
+    line-height: 1.1;
+}
+
+.tp-chart-headline-unit {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-secondary-color, #666);
+    margin-left: 4px;
+}
+
+.tp-chart-meta {
+    font-size: 11px;
+    color: var(--text-secondary-color, #666);
+    text-align: right;
+    line-height: 1.3;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// "No current sprint" warning — replaces .tp-chart-meta in the chart-header
+// when the team has no iteration covering today. Body text stays in primary
+// theme color for legibility in light/dark mode; the ⚠ icon carries the
+// warning semantic via theme-aware error color. Wraps freely to multiple
+// lines on narrow widgets — unlike .tp-chart-meta's nowrap, this content
+// is too important to truncate with ellipsis. 13px sits between the
+// headline number (22px) and the headline unit (12px) — visible as an
+// alert without competing with the chart's primary metric. Centered so
+// the icon-led phrase reads balanced in its allotted space rather than
+// being pinned to the right edge.
+.tp-chart-warning {
+    font-size: 13px;
+    color: var(--text-primary-color, #333);
+    text-align: center;
+    line-height: 1.3;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.tp-chart-warning-icon {
+    color: var(--status-error-text, #c42b1c);
+    margin-right: 4px;
+    font-weight: 700;
+}
+
+// "No completed items in this timeframe" info — same chart-header right
+// slot as the warning, same wrap/center behavior, but tuned for the
+// softer "this might be legitimate" state. Icon uses ADO accent
+// (--communication-foreground); body stays in primary text. Distinct
+// from .tp-chart-warning so the semantics are visually separable: red
+// triangle = problem to fix, blue circle-i = note worth reading.
+.tp-chart-info {
+    font-size: 13px;
+    color: var(--text-primary-color, #333);
+    text-align: center;
+    line-height: 1.3;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.tp-chart-info-icon {
+    color: var(--communication-foreground, #0078d4);
+    margin-right: 4px;
+    font-weight: 700;
+}
+
+// Bars area — equal-width columns, bottom-anchored bars.
+.tp-chart-bars {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    gap: 6px;
+    min-height: 60px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--palette-neutral-10, rgba(0, 0, 0, 0.08));
+}
+
+.tp-bar-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    cursor: default;
+}
+
+// The vertical region holding the bar + total. Bar pushed to bottom; total
+// sits right above the bar (both flex-end, total comes first in DOM).
+.tp-bar-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: stretch;
+    min-height: 0;
+    gap: 2px;
+}
+
+.tp-bar-total {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-primary-color, #333);
+    text-align: center;
+    line-height: 1;
+}
+
+// Each bar: height set inline as a percentage of .tp-bar-area. Stacked
+// segments fill the bar bottom-up via column-reverse.
+// position: relative anchors the .tp-bar-partial::after stripe overlay.
+.tp-bar {
+    width: 100%;
+    min-height: 2px;
+    display: flex;
+    flex-direction: column-reverse;
+    border-radius: 2px 2px 0 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.tp-bar-empty {
+    background: var(--palette-neutral-20, #ddd);
+    height: 2px !important;
+    min-height: 2px;
+}
+
+// Diagonal hatch overlay for the in-progress (partial) interval bar. The
+// bar's own overflow: hidden + border-radius clips the pattern to the
+// rounded-top bar shape automatically. White at low opacity reads as
+// "ghosted/incomplete" across all palette G slots — including the lighter
+// sky and warm-gray slots, where contrast is lowest but still legible.
+.tp-bar-partial::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent 0,
+        transparent 4px,
+        rgba(255, 255, 255, 0.4) 4px,
+        rgba(255, 255, 255, 0.4) 6px
+    );
+    pointer-events: none;
+}
+
+.tp-segment {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.tp-bar-label {
+    margin-top: 4px;
+    text-align: center;
+    font-size: 10px;
+    color: var(--text-secondary-color, #666);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 2px;
+    line-height: 1.2;
+}
+
+// Legend — only types that appear in the data, in order of first appearance.
+.tp-chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--text-secondary-color, #666);
+}
+
+// Legend entries are <button> toggles. Click a swatch+label to hide that
+// work-item type's segment from the chart; click again to bring it back.
+// Visual states:
+//   default      — full color, full opacity, "click to filter" affordance
+//   :hover       — subtle bg fill confirms interactivity
+//   :focus       — ADO accent outline (keyboard users)
+//   --off        — swatch dimmed + label strikethrough; the button still sits
+//                  in the legend so it can be toggled back on
+//   --locked     — last visible type; aria-disabled prevents click but the
+//                  button remains focusable (keyboard tabbing is uninterrupted)
+//                  and a tooltip explains why
+.tp-legend-item {
+    // Native button reset — strip the UA chrome so the legend reads as a
+    // chip row, not a row of system buttons.
+    background:    transparent;
+    border:        none;
+    padding:       2px 6px;
+    border-radius: 3px;
+    font:          inherit;
+    color:         inherit;
+    cursor:        pointer;
+
+    display:     inline-flex;
+    align-items: center;
+    gap:         5px;
+
+    &:hover {
+        background: var(--palette-neutral-10, rgba(0, 0, 0, 0.06));
+    }
+
+    &:focus-visible {
+        outline:        2px solid var(--communication-foreground, #0078d4);
+        outline-offset: 1px;
+    }
+
+    // Hidden state: dimmed swatch + strikethrough label.
+    &.tp-legend-item--off {
+        .tp-swatch        { opacity: 0.35; }
+        .tp-legend-label  { text-decoration: line-through; opacity: 0.65; }
+    }
+
+    // Locked state: last visible type. Cursor reverts to default to
+    // signal "this click won't do anything"; hover bg still applies so the
+    // entry doesn't read as completely dead in the legend row.
+    &.tp-legend-item--locked {
+        cursor: default;
+    }
+}
+
+.tp-swatch {
+    display:      inline-block;
+    width:        10px;
+    height:       10px;
+    border-radius: 2px;
+    flex-shrink:  0;
+}
+
+.tp-legend-label {
+    // Wrapped so strikethrough applies to the text only (not the swatch
+    // sibling) when the legend entry is in the --off state.
+    line-height: 1;
+}
+
+// Custom hover tooltip. Positioned absolutely inside .tp-chart by JS via
+// getBoundingClientRect (see Widget.tsx showTooltip). pointer-events:none
+// keeps the cursor "on" the bar even when the tooltip happens to overlap
+// the bar — without this, hovering near the top of the bar can flicker
+// because the tooltip catches the mouseover and the bar fires mouseout.
+.tp-tooltip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 10;
+    min-width: 140px;
+    max-width: 220px;
+    padding: 6px 8px;
+    background: var(--callout-background-color, #ffffff);
+    color: var(--text-primary-color, #333);
+    border: 1px solid var(--palette-neutral-20, #ddd);
+    border-radius: 3px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-size: 11px;
+    line-height: 1.4;
+
+    &[hidden] { display: none; }
+}
+
+.tp-tooltip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 4px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--palette-neutral-10, rgba(0, 0, 0, 0.08));
+
+    strong { font-weight: 600; }
+}
+
+.tp-tooltip-range {
+    font-size: 10px;
+    color: var(--text-secondary-color, #666);
+    white-space: nowrap;
+}
+
+.tp-tooltip-types {
+    list-style: none;
+    margin: 0 0 4px 0;
+    padding: 0;
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 1px 0;
+    }
+}
+
+.tp-tooltip-swatch {
+    width: 8px;
+    height: 8px;
+    border-radius: 1px;
+    flex-shrink: 0;
+}
+
+.tp-tooltip-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tp-tooltip-count {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+}
+
+// Total row — visual separator from per-type list (or sits alone in
+// breakdown-OFF mode where there's no .tp-tooltip-types above it).
+.tp-tooltip-total {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 4px;
+    border-top: 1px solid var(--palette-neutral-10, rgba(0, 0, 0, 0.08));
+}
+
+// Right-click context menu — shown on contextmenu over the bars area.
+// Single action for now ("Copy {N} items as TSV"), but the structure leaves
+// room for future entries (per-bar / per-segment scopes) without rework.
+// Theme-aware via the same ADO CSS vars the tooltip uses, so it tracks
+// light/dark dashboard mode without explicit branches.
+.tp-context-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 11;             // above .tp-tooltip (z-index 10)
+    min-width: 180px;
+    background: var(--callout-background-color, #ffffff);
+    color: var(--text-primary-color, #333);
+    border: 1px solid var(--palette-neutral-20, #ddd);
+    border-radius: 3px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-size: 12px;
+    // No padding on the normal-state menu — the button child fills the
+    // surface edge-to-edge so every pixel of the menu activates the action.
+    // Padding here would create a "dead zone" of menu-but-not-button pixels
+    // where clicks fall through to the menu div, miss the button selector,
+    // and silently bail without copying.
+    padding: 0;
+    overflow: hidden;
+
+    &[hidden] { display: none; }
+
+    // Confirmation state: shown briefly after a successful (or failed)
+    // clipboard write. Padding here is fine — there's no button to compete
+    // with; the inner span just sits centered with breathing room.
+    &.tp-context-menu--confirm {
+        padding: 10px 14px;
+    }
+}
+
+.tp-context-menu-item {
+    // Native button reset. Padding absorbed from the (now zero-padding)
+    // parent menu so the visual size + breathing room is unchanged.
+    background: transparent;
+    border:     none;
+    width:      100%;
+    text-align: left;
+    padding:    10px 14px;
+    font:       inherit;
+    color:      inherit;
+    cursor:     pointer;
+
+    &:hover {
+        background: var(--palette-neutral-10, rgba(0, 0, 0, 0.06));
+    }
+
+    &:focus-visible {
+        outline:        2px solid var(--communication-foreground, #0078d4);
+        outline-offset: -2px;
+    }
+
+    &[aria-disabled="true"] {
+        cursor: default;
+        color:  var(--text-secondary-color, #888);
+        // Hover bg suppressed for disabled items so they don't read as
+        // interactive when the user mouses over them.
+        &:hover { background: transparent; }
+    }
+}
+
+.tp-context-menu-confirm {
+    display: block;
+    color:   var(--communication-foreground, #0078d4);
+    font-weight: 600;
+
+    &--error {
+        color: var(--status-error-text, #c42b1c);
+    }
+}
+
+// Footer hint surfacing the right-click affordance. Right-aligned, low
+// visual weight — discoverable but not noisy. Hidden when there's no data
+// to copy (the chart's "no completed items" path doesn't render this).
+.tp-chart-hint {
+    margin-top: 6px;
+    text-align: right;
+    font-size:  10px;
+    color:      var(--text-secondary-color, #888);
+    line-height: 1;
+    user-select: none;
+}

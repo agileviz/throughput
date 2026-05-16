@@ -1,0 +1,29 @@
+<svg width="196" height="196" viewBox="0 0 196 196" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="o1b1"><rect x="22"  y="108" width="32" height="64"  rx="6"/></clipPath>
+    <clipPath id="o1b2"><rect x="62"  y="76"  width="32" height="96"  rx="6"/></clipPath>
+    <clipPath id="o1b3"><rect x="102" y="44"  width="32" height="128" rx="6"/></clipPath>
+    <clipPath id="o1b4"><rect x="142" y="12"  width="32" height="160" rx="6"/></clipPath>
+  </defs>
+
+  <!-- Monotonic staircase: 4 ascending columns, each split blue body + sky cap.
+       The sky-blue cap is ~constant (~26px) across all bars — "a steady sliver
+       of Bugs each sprint, on top of rising PBI throughput". -->
+
+  <g clip-path="url(#o1b1)">
+    <rect x="22" y="108" width="32" height="38" fill="#0092da"/>
+    <rect x="22" y="146" width="32" height="26" fill="#4FC1EA"/>
+  </g>
+  <g clip-path="url(#o1b2)">
+    <rect x="62" y="76"  width="32" height="70" fill="#0092da"/>
+    <rect x="62" y="146" width="32" height="26" fill="#4FC1EA"/>
+  </g>
+  <g clip-path="url(#o1b3)">
+    <rect x="102" y="44"  width="32" height="102" fill="#0092da"/>
+    <rect x="102" y="146" width="32" height="26"  fill="#4FC1EA"/>
+  </g>
+  <g clip-path="url(#o1b4)">
+    <rect x="142" y="12"  width="32" height="134" fill="#0092da"/>
+    <rect x="142" y="146" width="32" height="26"  fill="#4FC1EA"/>
+  </g>
+</svg>

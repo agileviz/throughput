@@ -1,0 +1,29 @@
+<svg width="196" height="196" viewBox="0 0 196 196" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="o2b1"><rect x="22"  y="76" width="32" height="96"  rx="6"/></clipPath>
+    <clipPath id="o2b2"><rect x="62"  y="32" width="32" height="140" rx="6"/></clipPath>
+    <clipPath id="o2b3"><rect x="102" y="92" width="32" height="80"  rx="6"/></clipPath>
+    <clipPath id="o2b4"><rect x="142" y="52" width="32" height="120" rx="6"/></clipPath>
+  </defs>
+
+  <!-- Realistic (non-monotonic) histogram: 4 varying columns, each split
+       blue body + sky cap. Throughput bounces around; this tells the
+       honest story rather than a fake hockey stick. -->
+
+  <g clip-path="url(#o2b1)">
+    <rect x="22" y="76"  width="32" height="72" fill="#0092da"/>
+    <rect x="22" y="148" width="32" height="24" fill="#4FC1EA"/>
+  </g>
+  <g clip-path="url(#o2b2)">
+    <rect x="62" y="32"  width="32" height="116" fill="#0092da"/>
+    <rect x="62" y="148" width="32" height="24"  fill="#4FC1EA"/>
+  </g>
+  <g clip-path="url(#o2b3)">
+    <rect x="102" y="92"  width="32" height="56" fill="#0092da"/>
+    <rect x="102" y="148" width="32" height="24" fill="#4FC1EA"/>
+  </g>
+  <g clip-path="url(#o2b4)">
+    <rect x="142" y="52"  width="32" height="96" fill="#0092da"/>
+    <rect x="142" y="148" width="32" height="24" fill="#4FC1EA"/>
+  </g>
+</svg>

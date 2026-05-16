@@ -1,0 +1,292 @@
+@import "azure-devops-ui/Core/override.scss";
+@import "normalize.css";
+@import "azure-devops-ui/Core/core.scss";
+@import "azure-devops-ui/_widgetsCommon.scss";
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    overflow-x: hidden;
+}
+
+.content {
+    padding: 16px 0 0 0;
+}
+
+.config-field-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+}
+
+// Two-field row: places two config fields side by side (e.g., Interval +
+// Number of intervals). Each child retains its own .config-field-wrapper
+// for its vertical flex + bottom margin. Mirrors ADO's dual-field pattern
+// (like the default Width × Height size picker).
+.config-field-row {
+    display: flex;
+    gap: 12px;
+}
+
+.config-field-half {
+    flex: 1;
+    min-width: 0;  // prevents the child select/input from overflowing when narrow
+}
+
+// Helper text below the Interval row, surfaced when Sprint is disabled
+// because the team's iterations are stale or absent. Negative top margin
+// pulls it up snug against the row above (which has 24px bottom margin via
+// .config-field-wrapper); when hidden via [hidden], the margin doesn't
+// apply at all so spacing collapses cleanly to the next section.
+.config-interval-hint {
+    margin: -16px 0 24px 0;
+    font-size: 12px;
+    color: $secondary-text;
+    line-height: 1.4;
+
+    &[hidden] { display: none; }
+}
+
+// Number input styled to match .config-select's border / focus / sizing so
+// the pair in a .config-field-row reads as a visually-coherent row.
+.config-input {
+    width: 100%;
+    padding: 5px 8px;
+    font-family: inherit;
+    font-size: 14px;
+    color: $primary-text;
+    background-color: var(--background-color, #ffffff);
+    border: 1px solid $neutral-20;
+    border-radius: 2px;
+
+    &:focus {
+        outline: none;
+        border-color: $communication-foreground;
+        box-shadow: 0 0 0 1px $communication-foreground;
+    }
+}
+
+.config-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: $secondary-text;
+}
+
+// Help link inline with a config-label, marked with the ⓘ glyph. Clicks
+// open /plugins/throughput/#how-bucketing-works in a new tab; native
+// browser title= attribute provides the brief explanation on hover. ADO
+// accent color (--communication-foreground) for visual distinction. Used
+// for surfacing the bucketing-by-close-date concept on the Interval row,
+// where the "Sprint" label otherwise creates a misleading expectation.
+.config-help-link {
+    margin-left: 6px;
+    font-size: 13px;
+    color: $communication-foreground;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+        opacity: 0.8;
+    }
+}
+
+// Checkbox row. Distinct from .config-field-wrapper because the label is
+// inline-after-control rather than block-above-control: native ADO checkbox
+// pattern. The hint paragraph below the label explains the OFF behavior so
+// installers don't have to toggle to find out what changes.
+.config-checkbox-wrapper {
+    margin-bottom: 24px;
+}
+
+.config-checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: $secondary-text;
+    cursor: pointer;
+}
+
+.config-checkbox {
+    margin: 0;
+    cursor: pointer;
+}
+
+.config-checkbox-hint {
+    margin: 4px 0 0 22px;  // align with text after the checkbox
+    font-size: 12px;
+    font-weight: 400;
+    color: $secondary-text;
+    line-height: 1.4;
+}
+
+.error-indicator {
+    color: $error-text;
+}
+
+.error-message {
+    font-size: 12px;
+    margin-bottom: 8px;
+    color: $error-text;
+}
+
+.config-select-wrapper {
+    position: relative;
+
+    &::after {
+        content: "";
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 10px;
+        height: 6px;
+        clip-path: polygon(0 0, 100% 0, 50% 100%);
+        background: $secondary-text;
+        pointer-events: none;
+    }
+}
+
+.config-select {
+    width: 100%;
+    padding: 5px 28px 5px 8px;
+    font-family: inherit;
+    font-size: 14px;
+    color: $primary-text;
+    background-color: var(--background-color, #ffffff);
+    border: 1px solid $neutral-20;
+    border-radius: 2px;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+
+    &:focus {
+        outline: none;
+        border-color: $communication-foreground;
+        box-shadow: 0 0 0 1px $communication-foreground;
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: default;
+    }
+
+    option:disabled {
+        color: $secondary-text;
+    }
+}
+
+// Slim Select theming. Overrides the library's own --ss-* CSS variables with
+// ADO theme values so its bundled stylesheet renders correctly in both light
+// and dark mode. Set on body so the popover (rendered under document.body via
+// contentLocation) inherits the same values as the main widget.
+body {
+    --ss-bg-color:          var(--background-color, #ffffff);
+    --ss-font-color:        var(--text-primary-color, #1e1e1e);
+    --ss-placeholder-color: var(--text-secondary-color, #666);
+    --ss-border-color:      #{$neutral-20};
+    --ss-primary-color:     #{$communication-foreground};
+    --ss-focus-color:       #{$communication-foreground};
+    --ss-highlight-color:   var(--communication-background, rgba(0,120,212,0.25));
+    --ss-disabled-color:    #{$neutral-20};
+    --ss-border-radius:     2px;
+    --ss-main-height:       30px;
+    --ss-search-height:     30px;
+    --ss-spacing-s:         3px;
+    --ss-spacing-m:         5px;
+    --ss-spacing-l:         7px;
+}
+
+.ss-main { transition: none; }
+.ss-search-highlight { color: $primary-text; }
+// Allow long query names to wrap rather than overflow horizontally.
+// Non-breaking-space indentation is preserved even with white-space: normal.
+.ss-option { white-space: normal; }
+
+// Disable mouse-over highlighting on options. During popover rebuilds the
+// option currently under the cursor re-renders already-hovered, which triggers
+// Slim Select's 200ms border/background transition every time and looks like
+// a flash. Keyboard navigation (.ss-highlighted) and current selection
+// (.ss-selected) still get their highlight.
+.ss-content .ss-list .ss-option:hover:not(.ss-disabled):not(.ss-selected):not(.ss-highlighted) {
+    color: inherit !important;
+    background-color: transparent !important;
+    border-left: none !important;
+    transition: none !important;
+}
+
+// AgileViz pitch + support links in the config pane.
+// Deliberately unboxed — no border, no fill, no container. Reads as publisher
+// content flowing in the pane, not as an ad block. Audience is the installer
+// configuring the widget, not the viewer of the dashboard.
+.agv-pitch {
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.agv-pitch-headline {
+    margin: 0 0 8px 0;
+    color: $primary-text;
+    line-height: 1.35;
+}
+
+.agv-pitch-body {
+    margin: 0 0 12px 0;
+    color: $secondary-text;
+}
+
+// Explicit font-size + line-height on both link paragraphs (and the anchors
+// themselves) to override any azure-devops-ui/Core defaults that might bleed
+// through with subtle context-dependent specificity. Both links MUST render
+// at the same size; don't rely on inheritance alone.
+.agv-pitch-link-primary,
+.agv-pitch-link-support {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.agv-pitch-link-primary {
+    margin-bottom: 12px;
+}
+
+.agv-link {
+    font-size: inherit;
+    line-height: inherit;
+    color: $communication-foreground;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+        text-decoration: underline;
+    }
+}
+
+.agv-icon-external {
+    display: inline-block;
+    margin-left: 4px;
+    vertical-align: -1px;
+    flex-shrink: 0;
+}
+
+// Accessible hide — visually invisible, still read by screen readers.
+// Used to append "(opens in a new tab)" context to external links without
+// showing it in the visual layout.
+.agv-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

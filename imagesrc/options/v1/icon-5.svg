@@ -1,0 +1,6 @@
+<svg width="196" height="196" viewBox="0 0 196 196" xmlns="http://www.w3.org/2000/svg">
+  <!-- Option 5: Progression Three — 3 bold bars; saturation rises gray→sky→brand -->
+  <rect x="24"  y="108" width="36" height="60"  rx="6" fill="#b2b2b2"/>
+  <rect x="80"  y="60"  width="36" height="108" rx="6" fill="#4FC1EA"/>
+  <rect x="136" y="24"  width="36" height="144" rx="6" fill="#0092da"/>
+</svg>
