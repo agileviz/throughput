@@ -13,6 +13,8 @@ Azure DevOps dashboard widget that shows your team's completion trend — items 
 
 ![Throughput widget showing completed work items per sprint, stacked by work item type (Azure DevOps dark mode).](static/throughput-dark.png)
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=agileviz_throughput&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=agileviz_throughput)
+
 ## Install
 
 Install from the Azure DevOps Marketplace:
