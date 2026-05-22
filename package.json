@@ -39,6 +39,11 @@
     "npm-check-latest-updates": "ncu --target latest",
     "npm-do-latest-updates": "ncu -u --target latest"
   },
+  "overrides": {
+    "sockjs": {
+      "uuid": ">=11.1.1"
+    }
+  },
   "dependencies": {
     "azure-devops-extension-api": "^4.238.0",
     "azure-devops-extension-sdk": "^4.0.2",
