@@ -66,6 +66,8 @@ npm run serve            # webpack-dev-server on https://localhost:3000
 
 Install the dev VSIX into an ADO org you control, then iterate against `npm run serve`.
 
+**Browser note:** use **Safari** for ADO widget testing against the local dev server. Chrome 130+ enforces Private Network Access (PNA) restrictions that block `dev.azure.com` from loading iframes from `localhost`, even with the correct `Access-Control-Allow-Private-Network` response headers. Before loading the ADO dashboard in Safari, visit `https://localhost:3000` once and accept the self-signed certificate warning.
+
 ## License, contributing, security
 
 - **[LICENSE](LICENSE)** — MIT, with a Trademark Notice for "AgileViz" and AgileViz product names.

@@ -1,0 +1,7 @@
+{
+    "manifestVersion": 1,
+    "id": "Throughput-dev",
+    "name": "Throughput - Dev",
+    "public": false,
+    "baseUri": "https://localhost:3000"
+}
