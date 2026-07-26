@@ -60,7 +60,9 @@ function writeClipboard(text: string): boolean {
     textarea.setAttribute('readonly', '');   // suppress mobile keyboard popup
     document.body.appendChild(textarea);
     textarea.select();
-    let ok = false;
+    // No initializer: both the try and the catch assign, so seeding `false`
+    // here is dead (ESLint 9's no-useless-assignment flags it).
+    let ok: boolean;
     try {
         ok = document.execCommand('copy');
     } catch (err) {

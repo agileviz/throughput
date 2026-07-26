@@ -41,7 +41,16 @@ module.exports = {
         // launch-prep coverage without false-failing on incidental moves.
         "src/Library/throughputData.ts": {
             "statements": 54,
-            "branches":   30,
+            // Branches floor re-baselined 30 -> 28 on the 2026-07-25 Jest 29 -> 30
+            // upgrade. NOT a coverage regression: babel-plugin-istanbul 7
+            // instruments more branches, so the denominator grew 51 -> 58 while
+            // covered branches rose 16 -> 17 — the new branches land in the
+            // fetchThroughput orchestrator that is exempt from unit testing per
+            // the note above, so they arrive uncovered by design. Same tests,
+            // stricter counting. The other three files moved the other way under
+            // Jest 30 (intervalWindows 87.5 -> 90.9, throughputView 95.45 -> 96.42)
+            // and keep their original floors.
+            "branches":   28,
             "functions":  65,
             "lines":      51
         },
