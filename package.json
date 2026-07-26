@@ -49,7 +49,7 @@
     "copy-webpack-plugin": {
       "serialize-javascript": "^7.0.5"
     },
-    "shell-quote": ">=1.8.4",
+    "shell-quote": ">=1.10.0",
     "lodash": ">=4.18.1",
     "@istanbuljs/load-nyc-config": {
       "js-yaml": ">=4.2.0"
